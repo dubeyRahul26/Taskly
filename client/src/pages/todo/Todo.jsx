@@ -5,9 +5,9 @@ import { Button, Input, Modal } from "antd";
 
 const Todo = () => {
   const { todos, updateTodo, deleteTodo, addTodo } = useTodoStore();
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
-  const [searchText, setSearchText] = useState();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filteredTodos, setFilteredTodos] = useState(todos) ;
 
@@ -25,13 +25,15 @@ const Todo = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
+  const handleOk = async () => {
     if (!title || !description) {
       toast.error("Please fill all the fields");
       return;
     }
     const newTodo = { title, description };
-    addTodo(newTodo);
+    await addTodo(newTodo);
+    setTitle("");
+    setDescription("");
     setIsModalOpen(false);
   };
   const handleCancel = () => {

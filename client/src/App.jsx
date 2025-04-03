@@ -36,12 +36,6 @@ function App() {
         />
         <Route path="/todo" element={user ? <Todo /> : <Navigate to="/" />} />
       </Routes>
-      {/* <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/todo" element={<Todo />} />
-      </Routes> */}
 
       <Toaster />
     </div>
