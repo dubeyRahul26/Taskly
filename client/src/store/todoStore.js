@@ -3,7 +3,7 @@ import axios from "axios";
 import { useUserStore } from "./userStore";
 import toast from "react-hot-toast";
 
-const SERVER_URL = process.env.SERVER_URL || "http://localhost:5000/api";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000/api";
 axios.defaults.withCredentials = true;
 
 export const useTodoStore = create((set, get) => ({
