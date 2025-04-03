@@ -9,6 +9,7 @@ const Todo = () => {
   const [description, setDescription] = useState();
   const [searchText, setSearchText] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filteredTodos, setFilteredTodos] = useState(todos) ;
 
   const onUpdate = (id, data) => {
     updateTodo(id, data);
@@ -37,8 +38,21 @@ const Todo = () => {
     setIsModalOpen(false);
   };
 
+  const handleSearch = (e) => {
+ 
+    const value = e.target.value;
+    if (value === "") {
+      setFilteredTodos(todos);
+    } else {
+      setFilteredTodos(todos.filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase())));
+    }
+   
+  }
+
   useEffect(() => {
     console.log("Todos updated", todos);
+    setFilteredTodos(todos) ;
+    console.log("Updated filtered todos", filteredTodos) ;
   }, [todos]);
 
   return (
@@ -55,7 +69,7 @@ const Todo = () => {
           placeholder="Search Your Tasks Here..."
           className="px-4 py-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-80"
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={handleSearch}
         />
 
         <button
@@ -67,7 +81,7 @@ const Todo = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center p-4">
-        {todos.map((todo, idx) => (
+        {filteredTodos.map((todo, idx) => (
           <TodoCard
             key={idx}
             todo={todo}
