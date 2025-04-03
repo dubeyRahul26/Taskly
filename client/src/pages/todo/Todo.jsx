@@ -9,7 +9,7 @@ const Todo = () => {
   const [description, setDescription] = useState("");
   const [searchText, setSearchText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filteredTodos, setFilteredTodos] = useState(todos) ;
+  const [filteredTodos, setFilteredTodos] = useState(todos);
 
   const onUpdate = (id, data) => {
     updateTodo(id, data);
@@ -40,30 +40,54 @@ const Todo = () => {
     setIsModalOpen(false);
   };
 
+  // const handleSearch = (e) => {
+
+  //   const value = e.target.value;
+  //   setSearchText(value);
+  //   if (value === "") {
+  //     setFilteredTodos(todos);
+  //   } else {
+  //     setFilteredTodos(todos.filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase())));
+  //   }
+
+  // }
+
   const handleSearch = (e) => {
- 
-    const value = e.target.value;
-    if (value === "") {
+    const value = e.target.value.trim(); // Trim whitespace
+    setSearchText(value);
+
+    if (!value) {
       setFilteredTodos(todos);
-    } else {
-      setFilteredTodos(todos.filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase())));
+      return;
     }
-   
-  }
+
+    setFilteredTodos(
+      todos.filter((todo) =>
+        todo.title.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+  };
+
+  // useEffect(() => {
+  //   console.log("Todos updated", todos);
+  //   setFilteredTodos(todos) ;
+  //   console.log("Updated filtered todos", filteredTodos) ;
+  // }, [todos]);
 
   useEffect(() => {
     console.log("Todos updated", todos);
-    setFilteredTodos(todos) ;
-    console.log("Updated filtered todos", filteredTodos) ;
-  }, [todos]);
+
+    // Maintain search results when todos update
+    setFilteredTodos(todos);
+
+    console.log("Updated filtered todos", filteredTodos);
+  }, [todos, searchText]);
 
   return (
     <div className="mt-18 flex flex-col items-center bg-gradient-to-br from-[#E0F2FF] via-[#80C7F2] to-[#3171A6] p-4">
       <div className="flex w-11/12 flex-col md:flex-row items-center justify-between px-6 md:px-10 pt-2 md:pt-6 pb-4 md:pb-5 bg-white shadow-md rounded-md gap-4">
-        <h2
-          className="text-2xl text-blue-400 font-bold text-center md:text-left shadow-[2px_2px_0px_rgba(0,0,0,0.3), 4px_4px_0px_rgba(0,0,0,0.2)]"
-        >
-         Task Dashboard
+        <h2 className="text-2xl text-blue-400 font-bold text-center md:text-left shadow-[2px_2px_0px_rgba(0,0,0,0.3), 4px_4px_0px_rgba(0,0,0,0.2)]">
+          Task Dashboard
         </h2>
 
         <input
