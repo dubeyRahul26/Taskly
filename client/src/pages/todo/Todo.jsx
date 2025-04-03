@@ -40,48 +40,33 @@ const Todo = () => {
     setIsModalOpen(false);
   };
 
-  // const handleSearch = (e) => {
-
-  //   const value = e.target.value;
-  //   setSearchText(value);
-  //   if (value === "") {
-  //     setFilteredTodos(todos);
-  //   } else {
-  //     setFilteredTodos(todos.filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase())));
-  //   }
-
-  // }
-
   const handleSearch = (e) => {
-    const value = e.target.value.trim(); // Trim whitespace
-    setSearchText(value);
 
-    if (!value) {
+    const value = e.target.value;
+    setSearchText(value);
+    if (value === "") {
       setFilteredTodos(todos);
-      return;
+    } else {
+      setFilteredTodos(todos.filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase())));
     }
 
-    setFilteredTodos(
-      todos.filter((todo) =>
-        todo.title.toLowerCase().includes(value.toLowerCase())
-      )
-    );
-  };
-
-  // useEffect(() => {
-  //   console.log("Todos updated", todos);
-  //   setFilteredTodos(todos) ;
-  //   console.log("Updated filtered todos", filteredTodos) ;
-  // }, [todos]);
-
+  }
   useEffect(() => {
     console.log("Todos updated", todos);
-
-    // Maintain search results when todos update
-    setFilteredTodos(todos);
-
+  
+    // Preserve search filter when todos update
+    setFilteredTodos(
+      searchText
+        ? todos.filter((todo) =>
+            todo.title.toLowerCase().includes(searchText.toLowerCase())
+          )
+        : todos
+    );
+  
     console.log("Updated filtered todos", filteredTodos);
-  }, [todos, searchText]);
+  }, [todos, searchText]); // ✅ Include searchText as dependency
+  
+
 
   return (
     <div className="mt-18 flex flex-col items-center bg-gradient-to-br from-[#E0F2FF] via-[#80C7F2] to-[#3171A6] p-4">
