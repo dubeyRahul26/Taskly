@@ -59,10 +59,7 @@ const Todo = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Todos updated", todos);
-    // Preserve search filter when todos update
     setFilteredTodos(todos);
-    console.log("Updated filtered todos", filteredTodos);
   }, [todos]); // 
 
   return (

@@ -3,9 +3,6 @@ import axios from "../lib/axios.js";
 import { useUserStore } from "./userStore";
 import toast from "react-hot-toast";
 
-// const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000/api";
-// axios.defaults.withCredentials = true;
-
 export const useTodoStore = create((set, get) => ({
   todos: [],
   loading: false,
@@ -22,9 +19,7 @@ export const useTodoStore = create((set, get) => ({
         set((state) => ({ ...state, loading: false }));
         return;
       }
-      const response = await axios.get(
-        `/todo/get-all-tasks/${user._id}`
-      );
+      const response = await axios.get(`/todo/get-all-tasks/${user._id}`);
       set((state) => ({ ...state, todos: response.data, loading: false }));
     } catch (error) {
       console.error("Error fetching todos:", error.message);
@@ -35,11 +30,7 @@ export const useTodoStore = create((set, get) => ({
   addTodo: async (data) => {
     try {
       set((state) => ({ ...state, loading: true }));
-      console.log("AddTodo:", data);
-
       const { user } = useUserStore.getState();
-
-      console.log(user, user._id);
       if (!user || !user._id) {
         console.error("User not found");
         set((state) => ({ ...state, loading: false }));
@@ -51,16 +42,11 @@ export const useTodoStore = create((set, get) => ({
         createdBy: user._id,
       });
 
-      console.log("Todo added:", response.data);
-
       set((state) => ({
         ...state,
         todos: [...(state.todos || []), response.data],
         loading: false,
       }));
-
-      console.log("AddTodo Completed : ",get().todos);
-      
 
       toast.success("Task added successfully!");
     } catch (error) {
@@ -89,7 +75,6 @@ export const useTodoStore = create((set, get) => ({
 
   updateTodo: async (todoId, data) => {
     try {
-      console.log("Updating todo", todoId, data);
       set((state) => ({ ...state, loading: true }));
       await axios.patch(`/todo/update-task/${todoId}`, data);
       set((state) => ({

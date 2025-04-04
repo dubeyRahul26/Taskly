@@ -1,9 +1,6 @@
 import {create} from 'zustand' ;
 import axios from "../lib/axios.js";
 
-// const SERVER_URL = import.meta.env.VITE_SERVER_URL  ||  'http://localhost:5000/api';
-// axios.defaults.withCredentials = true;
-
 export const useUserStore = create((set , get) =>({
     user: null,
 	loading: false,

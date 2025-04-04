@@ -4,31 +4,40 @@ import { Button, Input, Modal } from "antd";
 
 const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenTodo, setIsModalOpenTodo] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [description, setDescription] = useState(todo.description);
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
-    if(!title || !description){
-        toast.error("Please fill all the fields");
-        return;
+    if (!title || !description) {
+      toast.error("Please fill all the fields");
+      return;
     }
-    const updatedTodo = {...todo, title, description};
-    onUpdate(todo._id , updatedTodo);
+    const updatedTodo = { ...todo, title, description };
+    onUpdate(todo._id, updatedTodo);
     setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
+  const showModalTodo = () => {
+    setIsModalOpenTodo(true);
+  };
+
+  const handleCancelTodo = () => {
+    setIsModalOpenTodo(false);
+  };
+
   return (
     <div>
-      
       <div
         className={`p-6 max-w-md bg-white shadow-md rounded-lg border transition ${
           todo.isCompleted ? "border-green-500" : "border-gray-300"
         }`}
+        onClick={showModalTodo}
       >
         {/* Title and Completed Indicator */}
         <div className="flex justify-between items-center">
@@ -58,7 +67,10 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
           {/* Update Button */}
           <button
             className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-3 rounded-lg transition"
-            onClick={setIsModalOpen}
+            onClick={(e) => {
+              e.stopPropagation();
+              showModal();
+            }}
             aria-label="Edit Todo"
           >
             <FaEdit /> Edit
@@ -72,7 +84,10 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
                   ? "bg-yellow-400 hover:bg-yellow-500 text-white"
                   : "bg-green-500 hover:bg-green-600 text-white"
               }`}
-              onClick={() => onToggleComplete(todo._id, todo)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleComplete(todo._id, todo);
+              }}
               aria-label={todo.isCompleted ? "Undo Completion" : "Mark as Done"}
             >
               {todo.isCompleted ? <FaUndo /> : <FaCheck />}
@@ -82,7 +97,10 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
             {/* Delete Button */}
             <button
               className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-3 rounded-lg transition"
-              onClick={() => onDelete(todo._id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(todo._id);
+              }}
               aria-label="Delete Todo"
             >
               <FaTrash /> Delete
@@ -119,7 +137,7 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
             autoSize={{ minRows: 3, maxRows: 6 }}
             className="rounded-lg p-3 border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 shadow-md transition-all duration-200"
             value={description}
-            onChange = {(e) => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
 
           {/* Footer Buttons */}
@@ -140,8 +158,24 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
           </div>
         </div>
       </Modal>
+
+      <Modal
+        title={
+          <h2 className="text-2xl font-bold text-blue-600 tracking-wide pb-2">
+            {todo.title}
+          </h2>
+        }
+        open={isModalOpenTodo}
+        onCancel={handleCancelTodo}
+        centered
+        footer={null} // Custom footer
+        className="rounded-lg"
+      >
+        <p>{todo.description}</p>
+      </Modal>
     </div>
   );
 };
 
 export default TodoCard;
+
