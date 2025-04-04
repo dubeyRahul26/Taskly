@@ -4,7 +4,7 @@ import TodoCard from "../../components/TodoCard";
 import { Button, Input, Modal } from "antd";
 
 const Todo = () => {
-  const { todos, updateTodo, deleteTodo, addTodo } = useTodoStore();
+  const { todos, updateTodo, deleteTodo, addTodo , fetchTodos } = useTodoStore();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -41,35 +41,32 @@ const Todo = () => {
   };
 
   const handleSearch = (e) => {
-
     const value = e.target.value;
     setSearchText(value);
     if (value === "") {
       setFilteredTodos(todos);
     } else {
-      setFilteredTodos(todos.filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase())));
+      setFilteredTodos(
+        todos.filter((todo) =>
+          todo.title.toLowerCase().includes(value.toLowerCase())
+        )
+      );
     }
+  };
 
-  }
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
   useEffect(() => {
     console.log("Todos updated", todos);
-  
     // Preserve search filter when todos update
-    setFilteredTodos(
-      searchText
-        ? todos.filter((todo) =>
-            todo.title.toLowerCase().includes(searchText.toLowerCase())
-          )
-        : todos
-    );
-  
+    setFilteredTodos(todos);
     console.log("Updated filtered todos", filteredTodos);
-  }, [todos, searchText]); // ✅ Include searchText as dependency
-  
-
+  }, [todos]); // 
 
   return (
-    <div className="mt-18 flex flex-col items-center bg-gradient-to-br from-[#E0F2FF] via-[#80C7F2] to-[#3171A6] p-4">
+    <div className="mt-18 flex flex-col items-center p-4 ">
       <div className="flex w-11/12 flex-col md:flex-row items-center justify-between px-6 md:px-10 pt-2 md:pt-6 pb-4 md:pb-5 bg-white shadow-md rounded-md gap-4">
         <h2 className="text-2xl text-blue-400 font-bold text-center md:text-left shadow-[2px_2px_0px_rgba(0,0,0,0.3), 4px_4px_0px_rgba(0,0,0,0.2)]">
           Task Dashboard
