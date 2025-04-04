@@ -59,7 +59,6 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
           </span>
         </div>
 
-     
         <p className="text-gray-600 mt-2 line-clamp-1">{todo.description}</p>
 
         {/* Buttons: Update, Delete, Toggle Complete */}
@@ -159,7 +158,7 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
         </div>
       </Modal>
 
-      <Modal
+      {/* <Modal
         title={
           <h2 className="text-2xl font-bold text-blue-600 tracking-wide pb-2">
             {todo.title}
@@ -172,10 +171,24 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
         className="rounded-lg"
       >
         <p>{todo.description}</p>
+      </Modal> */}
+
+      <Modal
+        title={
+          <h2 className="text-2xl font-bold text-blue-600 tracking-wide pb-2">
+            {todo.title}
+          </h2>
+        }
+        open={isModalOpenTodo}
+        onCancel={handleCancelTodo}
+        centered
+        footer={null} // Custom footer
+        className="rounded-lg w-full sm:max-w-lg md:max-w-2xl lg:max-w-3xl"
+      >
+        <p>{todo.description}</p>
       </Modal>
     </div>
   );
 };
 
 export default TodoCard;
-
