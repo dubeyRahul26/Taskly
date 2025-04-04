@@ -34,7 +34,7 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
   return (
     <div>
       <div
-        className={`p-6 max-w-md bg-white shadow-md rounded-lg border transition ${
+        className={`p-6 max-w-[328px] bg-white shadow-md rounded-lg border transition ${
           todo.isCompleted ? "border-green-500" : "border-gray-300"
         }`}
         onClick={showModalTodo}
@@ -44,7 +44,7 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
           <h3
             className={`text-lg font-semibold ${
               todo.isCompleted ? "text-green-500 line-through" : "text-gray-800"
-            }`}
+            } truncate mr-3`}
           >
             {todo.title}
           </h3>
@@ -53,14 +53,14 @@ const TodoCard = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
               todo.isCompleted
                 ? "bg-green-200 text-green-700"
                 : "bg-gray-200 text-gray-600"
-            }`}
+            } `}
           >
             {todo.isCompleted ? "Completed" : "Pending"}
           </span>
         </div>
 
-        {/* Description */}
-        <p className="text-gray-600 mt-2">{todo.description}</p>
+     
+        <p className="text-gray-600 mt-2 line-clamp-1">{todo.description}</p>
 
         {/* Buttons: Update, Delete, Toggle Complete */}
         <div className="mt-4 flex justify-between items-center gap-2">
