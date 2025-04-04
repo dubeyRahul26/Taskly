@@ -4,7 +4,7 @@ const axiosInstance = axios.create({
 	baseURL:
 	  import.meta.env.MODE === "development"
 		? "http://localhost:5000/api" // for development
-		: "https://your-production-backend-url.com/api", // for production
+		: "https://taskly-lwbt.onrender.com/api", // for production
 	withCredentials: true, // send cookies to the server
   });
 
