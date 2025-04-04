@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import axios from "axios";
+import axios from "../lib/axios.js";
 import { useUserStore } from "./userStore";
 import toast from "react-hot-toast";
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000/api";
-axios.defaults.withCredentials = true;
+// const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000/api";
+// axios.defaults.withCredentials = true;
 
 export const useTodoStore = create((set, get) => ({
   todos: [],
@@ -23,7 +23,7 @@ export const useTodoStore = create((set, get) => ({
         return;
       }
       const response = await axios.get(
-        `${SERVER_URL}/todo/get-all-tasks/${user._id}`
+        `/todo/get-all-tasks/${user._id}`
       );
       set((state) => ({ ...state, todos: response.data, loading: false }));
     } catch (error) {
@@ -46,7 +46,7 @@ export const useTodoStore = create((set, get) => ({
         return;
       }
 
-      const response = await axios.post(`${SERVER_URL}/todo/create-task`, {
+      const response = await axios.post("/todo/create-task", {
         ...data,
         createdBy: user._id,
       });
@@ -73,7 +73,7 @@ export const useTodoStore = create((set, get) => ({
   deleteTodo: async (todoId) => {
     try {
       set((state) => ({ ...state, loading: true }));
-      await axios.delete(`${SERVER_URL}/todo/delete-task/${todoId}`);
+      await axios.delete(`/todo/delete-task/${todoId}`);
       set((state) => ({
         ...state,
         todos: state.todos.filter((todo) => todo._id !== todoId),
@@ -91,7 +91,7 @@ export const useTodoStore = create((set, get) => ({
     try {
       console.log("Updating todo", todoId, data);
       set((state) => ({ ...state, loading: true }));
-      await axios.patch(`${SERVER_URL}/todo/update-task/${todoId}`, data);
+      await axios.patch(`/todo/update-task/${todoId}`, data);
       set((state) => ({
         ...state,
         todos: state.todos.map((todo) =>

@@ -1,8 +1,8 @@
 import {create} from 'zustand' ;
-import axios from 'axios';
+import axios from "../lib/axios.js";
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL  ||  'http://localhost:5000/api';
-axios.defaults.withCredentials = true;
+// const SERVER_URL = import.meta.env.VITE_SERVER_URL  ||  'http://localhost:5000/api';
+// axios.defaults.withCredentials = true;
 
 export const useUserStore = create((set , get) =>({
     user: null,
@@ -15,7 +15,7 @@ export const useUserStore = create((set , get) =>({
 
     signup : async (data) => {
         try {
-            const res = await axios.post(`${SERVER_URL}/auth/signup`, data);
+            const res = await axios.post(`/auth/signup`, data);
             set({ user: res.data, loading: false });
             return res.data;  // Return only the response data
 
@@ -27,7 +27,7 @@ export const useUserStore = create((set , get) =>({
 
     login : async (data) => {
         try {
-            const res = await axios.post(`${SERVER_URL}/auth/login`, data);
+            const res = await axios.post(`/auth/login`, data);
             set({ user: res.data, loading: false });
             return res.data;
         } catch (error) {
@@ -38,7 +38,7 @@ export const useUserStore = create((set , get) =>({
 
     logout : async () => {
         try {
-            await axios.post(`${SERVER_URL}/auth/logout`);
+            await axios.post(`$/auth/logout`);
             set({ user: null, loading: false });
             console.log("Logged out successfully");
         } catch (error) {
