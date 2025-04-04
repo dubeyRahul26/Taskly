@@ -22,7 +22,7 @@ function App() {
     }
   }, []);
   return (
-    <div className=" bg-gradient-to-br from-[#E0F2FF] via-[#80C7F2] to-[#3171A6] p-4 h-screen w-full">
+    <div className=" bg-gradient-to-br from-[#E0F2FF] via-[#80C7F2] to-[#3171A6] p-4 h-screen w-full overflow-y-auto">
       <NavBar />
       <Routes>
         <Route path="/" element={<Landing />} />
